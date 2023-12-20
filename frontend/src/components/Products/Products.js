@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 const Products = () => {
   const mediaq = useMediaQuery("(max-width:600px)");
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token] = useState(localStorage.getItem("token"));
   const [search, setSearch] = useState("");
   const { addToCart, addtoWishlist } = useCart();
 
