@@ -1,9 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const usersignup = require("./models/usersignup");
+const Products = require("./models/products");
 const jwt = require("jsonwebtoken");
 const app = express();
 const cors = require("cors");
+const jwtmiddleware = require("./middleware");
+const products = require("./models/products");
+
 app.use(cors());
 app.use(express.json());
 mongoose
@@ -69,13 +73,65 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/alluser", async (req, res) => {
+app.get("/allusers", jwtmiddleware, async (req, res) => {
   try {
     let allusers = await usersignup.find();
     return res.json(allusers);
   } catch (err) {
     console.log(err);
     return res.status(404).send("server error");
+  }
+});
+
+app.get("/myprofile", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    let userProfile = await usersignup.findById(userId);
+
+    if (!userProfile) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.json(userProfile);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Product code
+app.post("/addproduct", async (req, res) => {
+  try {
+    const { name, price, image } = req.body;
+
+    if (!name || !price || !image) {
+      return res
+        .status(400)
+        .json({ message: "Name, price, and image are required." });
+    }
+
+    const product = new Products({
+      name,
+      price,
+      image,
+    });
+    await product.save();
+
+    return res.status(201).json({ message: "Product added successfully" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/getproducts", async (req, res) => {
+  try {
+    let allproducts = await products.find();
+    return res.json(allproducts);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 app.listen(5000, () => {

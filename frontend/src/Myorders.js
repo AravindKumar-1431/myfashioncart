@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 
 const Myorders = () => {
-  const isLargeScreen = useMediaQuery("(min-width:600px)");
+  const media = useMediaQuery("(max-width:600px)");
   const { order, Cancelorder } = useCart();
   const cartItems = order || [];
   const handelCancelorder = (shirt) => {
@@ -30,106 +30,103 @@ const Myorders = () => {
       <h2
         style={{
           margin: "3rem",
-          marginLeft: isLargeScreen ? "45rem" : "25rem",
-          fontSize: isLargeScreen ? "3rem" : "24px",
+          marginLeft: media ? "10rem" : "45rem",
+          fontSize: "3rem",
         }}
       >
         {" "}
-        My Orders
+        my orders
       </h2>
       {cartItems.length === 0 ? (
-        <p style={{ marginLeft: "40rem", fontSize: "3rem" }}>
+        <p style={{ marginLeft: media ? "8rem" : "40rem", fontSize: "3rem" }}>
           Your Orders are empty
         </p>
       ) : (
-        <Box
-          border={"2px solid black"}
-          borderRadius={"10px"}
-          width={isLargeScreen ? "100%" : "150%"}
-        >
+        <Box border={"2px solid black"} borderRadius={"10px"}>
           <Box>
             <Navbar />
           </Box>
-          <Box display={"grid"} gridTemplateColumns={"repeat(4, 1fr)"}>
+          <Box
+            display={"grid"}
+            gridTemplateColumns={media ? "repeat(3, 1fr)" : "repeat(4, 1fr)"}
+          >
             {cartItems.map((shirt) => (
               <Card
                 sx={{
-                  width: "70%",
+                  width: media ? "75%" : "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
-                  height: isLargeScreen ? "60vh" : "27vh",
-                  justifyContent: "center",
+                  height: media ? "38vh" : "53vh",
                 }}
                 key={shirt.id}
               >
                 <Box
-                  width={isLargeScreen ? "80%" : "200%"}
-                  height={isLargeScreen ? "40vh" : "12vh"}
+                  width={media ? "90%" : "80%"}
+                  height={media ? "20vh" : "33vh"}
                 >
                   <CardMedia
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: isLargeScreen ? "85%" : "7vh",
-                      height: isLargeScreen ? "32vh" : "10vh",
+                      width: media ? "60%" : "80%",
+                      height: media ? "15vh" : "30vh",
                     }}
-                    image={`${shirt.Image}`}
+                    image={`${shirt.image}`}
                   />
                 </Box>
 
                 <CardContent
                   sx={{
-                    alignItems: "center",
-                    justifyContent: "center",
-
-                    width: isLargeScreen ? "null" : "100%",
-                    height: isLargeScreen ? "null" : "7vh",
+                    width: media ? "90%" : "80%",
+                    height: media ? "7vh" : "10vh",
                   }}
                 >
                   <Typography
                     sx={{
-                      //   marginTop: isLargeScreen ? "1rem" : "1rem",
-                      width: isLargeScreen ? "100%" : "100%",
-                      height: isLargeScreen ? "null" : "4vh",
-                      fontSize: isLargeScreen ? "null" : "14px",
-                      fontWeight: "550",
+                      marginLeft: media ? "2rem" : "2rem",
+                      marginBottom: "1rem",
+                      fontSize: media ? "10px" : "null",
                     }}
-                  >
-                    {`${shirt.name}`}
-                  </Typography>
+                  >{`${shirt.name}`}</Typography>
                   <Typography
                     sx={{
-                      marginLeft: isLargeScreen ? "5rem" : "1.6rem",
-
+                      marginLeft: media ? "2rem" : "4rem",
                       fontWeight: "800",
+                      fontSize: media ? "10px" : " null",
                     }}
                   >
                     $ {`${shirt.price}`}
                   </Typography>
-                  <Box color={"green"}> Order Conformed</Box>
                 </CardContent>
-                <CardActions
+                <Box
                   sx={{
-                    justifyContent: "center",
-                    gap: "2rem",
+                    display: media ? "flex" : "null",
+                    flexDirection: media ? "column" : "",
                   }}
                 >
-                  <button
-                    style={{
-                      width: isLargeScreen ? "40%" : "11rem",
-                      height: "3vh",
-                      alignItems: "center",
+                  <CardActions
+                    sx={{
                       justifyContent: "center",
-                      marginLeft: "1.5rem",
-                      fontSize: isLargeScreen ? "null" : "11px",
-                      fontWeight: isLargeScreen ? "null" : "bold",
+                      gap: "2rem",
                     }}
-                    onClick={() => handelCancelorder(shirt)}
                   >
-                    Cancel Order
-                  </button>
-                  <Link to={"/Payment"}></Link>
-                </CardActions>
+                    <button
+                      style={{
+                        width: media ? "85%" : "11rem",
+                        height: media ? "5vh" : "3vh",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginLeft: "1.5rem",
+                        fontSize: media ? "null" : "11px",
+                        fontWeight: media ? "null" : "bold",
+                      }}
+                      onClick={() => handelCancelorder(shirt)}
+                    >
+                      Cancel Order
+                    </button>
+                    <Link to={"/Payment"}></Link>
+                  </CardActions>
+                </Box>
               </Card>
             ))}
           </Box>

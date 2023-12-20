@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useMediaQuery } from "@mui/material";
 import { useCart } from "./CartContext";
 import { Link } from "react-router-dom";
 
@@ -22,17 +22,24 @@ const Cart = () => {
     });
   };
   const cartItems = cart || [];
+  const media = useMediaQuery("(max-width:600px)");
   return (
     <Box>
       <Box margin={"5rem"}>
         <Navbar />
       </Box>
-      <h2 style={{ margin: "3rem", marginLeft: "45rem", fontSize: "3rem" }}>
+      <h2
+        style={{
+          margin: "3rem",
+          marginLeft: media ? "10rem" : "45rem",
+          fontSize: "3rem",
+        }}
+      >
         {" "}
         My Cart
       </h2>
       {cartItems.length === 0 ? (
-        <p style={{ marginLeft: "40rem", fontSize: "3rem" }}>
+        <p style={{ marginLeft: media ? "8rem" : "40rem", fontSize: "3rem" }}>
           Your cart is empty
         </p>
       ) : (
@@ -40,38 +47,52 @@ const Cart = () => {
           <Box>
             <Navbar />
           </Box>
-          <Box display={"grid"} gridTemplateColumns={"repeat(4, 1fr)"}>
+          <Box
+            display={"grid"}
+            gridTemplateColumns={media ? "repeat(3, 1fr)" : "repeat(4, 1fr)"}
+          >
             {cartItems.map((shirt) => (
               <Card
                 sx={{
                   width: "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
-                  height: "55vh",
+                  height: media ? "45vh" : "55vh",
                 }}
                 key={shirt.id}
               >
-                <Box width={"80%"} height={"40vh"}>
+                <Box width={"70%"} height={media ? "25vh" : "40vh"}>
                   <FavoriteBorderIcon />
                   <CardMedia
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: "85%",
-                      height: "32vh",
+                      width: media ? "60%" : "85%",
+                      height: media ? "15vh" : "32vh",
                     }}
-                    image={`${shirt.Image}`}
+                    image={`${shirt.image}`}
                   />
                 </Box>
 
-                <CardContent>
-                  <Typography sx={{ marginBottom: "1rem" }}>
+                <CardContent
+                  sx={{
+                    width: media ? "70%" : "null",
+                    height: media ? "10vh" : "null",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      marginBottom: "1rem",
+                      fontSize: media ? "10px" : "null",
+                      //   height: media ? "3vh" : "null",
+                    }}
+                  >
                     {" "}
                     {`${shirt.name}`}
                   </Typography>
                   <Typography
                     sx={{
-                      marginLeft: "5rem",
+                      marginLeft: media ? "2rem" : "5rem",
 
                       fontWeight: "800",
                     }}
@@ -79,35 +100,45 @@ const Cart = () => {
                     $ {`${shirt.price}`}
                   </Typography>
                 </CardContent>
-                <CardActions
+                <Box
                   sx={{
-                    justifyContent: "center",
-                    gap: "2rem",
+                    display: media ? "flex" : "null",
+                    flexDirection: media ? "column" : "",
                   }}
                 >
-                  <button
-                    style={{
-                      width: "40%",
-                      height: "3vh",
+                  <CardActions
+                    sx={{
+                      justifyContent: "center",
+                      gap: "2rem",
                     }}
-                    onClick={() => handleRemoveFromCart(shirt)}
                   >
-                    Remove
-                  </button>
-                  <Link to={"/Payment"}>
                     <button
                       style={{
-                        background:
-                          "linear-gradient(90deg, rgba(129,127,168,1) 0%, rgba(46,46,98,1) 35%, rgba(2,175,230,1) 88%, rgba(26,105,123,1) 96%, rgba(1,203,249,1) 97%, rgba(0,212,255,1) 100%)",
-                        color: "white",
-                        fontWeight: "600",
-                        cursor: "pointer",
+                        width: "40%",
+                        height: "3vh",
+                        fontSize: media ? "10px" : "null",
                       }}
+                      onClick={() => handleRemoveFromCart(shirt)}
                     >
-                      Buy now
+                      Remove
                     </button>
-                  </Link>
-                </CardActions>
+
+                    <Link to={"/Payment"}>
+                      <button
+                        style={{
+                          background:
+                            "linear-gradient(90deg, rgba(129,127,168,1) 0%, rgba(46,46,98,1) 35%, rgba(2,175,230,1) 88%, rgba(26,105,123,1) 96%, rgba(1,203,249,1) 97%, rgba(0,212,255,1) 100%)",
+                          color: "white",
+                          fontWeight: media ? "300" : "600",
+                          cursor: "pointer",
+                          fontSize: media ? "13px" : "null",
+                        }}
+                      >
+                        Buy
+                      </button>
+                    </Link>
+                  </CardActions>
+                </Box>
               </Card>
             ))}
           </Box>

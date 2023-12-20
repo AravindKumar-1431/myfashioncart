@@ -9,11 +9,12 @@ import Typography from "@mui/material/Typography";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-
+import { useMediaQuery } from "@mui/material";
 import { useCart } from "./Cart/CartContext";
 import { Divider } from "@mui/material";
 
 const ProductSummary = () => {
+  const mediaq = useMediaQuery("(max-width:700px)");
   const { cart, removeFromCart, addtoMyorders } = useCart();
   const handleRemoveFromCart = (shirt) => {
     removeFromCart(shirt);
@@ -81,7 +82,7 @@ const ProductSummary = () => {
                           width: "75%",
                           height: "30vh",
                         }}
-                        image={`${shirt.Image}`}
+                        image={`${shirt.image}`}
                       />
                     </Box>
 

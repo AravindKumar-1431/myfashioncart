@@ -24,7 +24,6 @@ const Login = (props) => {
     const storedEmail = localStorage.getItem("signupEmail") || "";
     const storedPassword = localStorage.getItem("signupPassword") || "";
 
-    // Set the retrieved values in the state
     setdata({
       email: storedEmail,
       password: storedPassword,
@@ -41,13 +40,14 @@ const Login = (props) => {
     axios
       .post("http://localhost:5000/login", data)
       .then((response) => {
-        console.log(response.data);
-
+        localStorage.setItem("token", response.data.token);
+        props.onLogin(response.data);
         toast.success("Login successful", {
           position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
+          autoClose: 1000,
           onClose: () => {
             navigate("/");
+            props.onLogin(response.data);
           },
         });
       })
