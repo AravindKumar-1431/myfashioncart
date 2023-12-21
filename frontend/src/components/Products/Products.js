@@ -28,8 +28,6 @@ const Products = () => {
     try {
       const response = await axios.get("http://localhost:5000/getproducts");
       setdata(response.data);
-
-      console.log(response.data);
     } catch (error) {
       console.error("Error during GET request:", error);
     }
@@ -43,8 +41,8 @@ const Products = () => {
     }
   }, [token, navigate]);
 
-  const handleAddToCart = (product) => {
-    addToCart(product);
+  const handleAddToCart = async (product) => {
+    await addToCart(product.name, product.price, product.image);
 
     toast.success("Item added successfully to the cart!", {
       position: toast.POSITION.TOP_CENTER,

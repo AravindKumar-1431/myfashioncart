@@ -1,4 +1,5 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
+import axios from "axios";
 const CartContext = createContext();
 export const useCart = () => {
   return useContext(CartContext);
@@ -8,8 +9,58 @@ export const CartProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [order, setorder] = useState([]);
 
-  const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+  // const getcart = async () => {
+  //   try {
+  //     const res = await axios.get("http://localhost:5000/getcart", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "y-token": localStorage.getItem("token"),
+  //       },
+  //     });
+  //     console.log(setCart(res.data));
+  //     setCart(res.data);
+  //   } catch (error) {
+  //     console.error("Error adding to cart:", error);
+  //   }
+  // };
+  useEffect(() => {
+    const getcart = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/getcart", {
+          headers: {
+            "Content-Type": "application/json",
+            "y-token": localStorage.getItem("token"),
+          },
+        });
+        console.log(setCart(res.data));
+        setCart(res.data);
+      } catch (error) {
+        console.error("Error adding to cart:", error);
+      }
+    };
+    getcart();
+  }, []);
+  const addToCart = async (name, price, image) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/addtocart",
+        {
+          name,
+          price,
+          image,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "y-token": localStorage.getItem("token"),
+          },
+        }
+      );
+      setCart((prevCart) => [...prevCart, response.data.data]);
+      console.log(response.data.data);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
   const removeFromCart = (product) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== product.id));

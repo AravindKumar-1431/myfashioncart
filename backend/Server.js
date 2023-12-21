@@ -7,6 +7,7 @@ const app = express();
 const cors = require("cors");
 const jwtmiddleware = require("./middleware");
 const products = require("./models/products");
+const addcart = require("./models/addcart");
 
 app.use(cors());
 app.use(express.json());
@@ -62,10 +63,6 @@ app.post("/login", async (req, res) => {
     jwt.sign(payload, "jwtPassword", { expiresIn: 36000000 }, (err, token) => {
       if (err) throw err;
       return res.json({ token: token });
-      // let newUser = new usersignup({ email, password });
-      // newUser.save();
-
-      // return res.status(200).send("user logined successfully");
     });
   } catch (err) {
     console.log(err);
@@ -86,7 +83,7 @@ app.get("/allusers", jwtmiddleware, async (req, res) => {
 app.get("/myprofile", jwtmiddleware, async (req, res) => {
   try {
     const userId = req.user.id;
-
+    console.log(req.user);
     let userProfile = await usersignup.findById(userId);
 
     if (!userProfile) {
@@ -128,12 +125,69 @@ app.post("/addproduct", async (req, res) => {
 app.get("/getproducts", async (req, res) => {
   try {
     let allproducts = await products.find();
+    console.log(req.user);
     return res.json(allproducts);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+
+app.post("/addtocart", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { name, price, image } = req.body;
+
+    const cartItem = {
+      userId: userId,
+      name: name,
+      price: price,
+      image: image,
+    };
+
+    const cartData = await addcart.create(cartItem);
+
+    return res.status(200).send({ data: cartData });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+app.get("/getcart", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    let getcart = await addcart.find({ userId: userId });
+
+    return res.json(getcart);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 app.listen(5000, () => {
   console.log("server running");
 });
+// app.post("/addtocart", jwtmiddleware, async (req, res) => {
+//   try {
+//     const cartobj = new addcart({
+//       productId: req.body.productId,
+//     });
+//     const cartdata = await cartobj.save();
+//     console.log(cartdata);
+//     return res.status(200).send({ data: cartdata });
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ message: "Internal server error" });
+//   }
+// });
+// app.get("/getcart", async (req, res) => {
+//   try {
+//     let getcart = await addcart.find().populate("productId");
+//     return res.json(getcart);
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ message: "Internal server error" });
+//   }
+// });

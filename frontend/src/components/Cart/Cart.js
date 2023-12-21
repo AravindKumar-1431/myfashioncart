@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../Navbar";
 import { Box } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -12,15 +12,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { useMediaQuery } from "@mui/material";
 import { useCart } from "./CartContext";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 const Cart = () => {
-  const { cart, removeFromCart } = useCart();
+  const { cart, getcart, removeFromCart } = useCart();
   const handleRemoveFromCart = (shirt) => {
     removeFromCart(shirt);
     toast.success("Item removed successfully from the cart!", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
+  // useEffect(async () => {
+  //   await getcart();
+  // }, []);
   const cartItems = cart || [];
   const media = useMediaQuery("(max-width:600px)");
   return (
