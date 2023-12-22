@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Navbar from "../Navbar";
 import { Box } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -14,16 +14,49 @@ import { useCart } from "./CartContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 const Cart = () => {
-  const { cart, getcart, removeFromCart } = useCart();
+  const { cart, setCart } = useCart();
+
+  const removeFromCart = async (shirt) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/removefromcart/${shirt._id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "y-token": localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        // Update the cart in your context
+        setCart((prevCart) =>
+          prevCart.filter((item) => item._id !== shirt._id)
+        );
+        toast.success("Item removed successfully from the cart!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.error(
+          `Failed to remove item from the cart. Status: ${res.status}`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+      toast.error(
+        `Failed to remove item from the cart. Error: ${error.message}`,
+        {
+          position: toast.POSITION.TOP_CENTER,
+        }
+      );
+    }
+  };
   const handleRemoveFromCart = (shirt) => {
     removeFromCart(shirt);
-    toast.success("Item removed successfully from the cart!", {
-      position: toast.POSITION.TOP_CENTER,
-    });
   };
-  // useEffect(async () => {
-  //   await getcart();
-  // }, []);
   const cartItems = cart || [];
   const media = useMediaQuery("(max-width:600px)");
   return (

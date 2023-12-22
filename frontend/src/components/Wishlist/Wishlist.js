@@ -9,25 +9,64 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCart } from "../Cart/CartContext";
 import { useMediaQuery } from "@mui/material";
-
+import axios from "axios";
 const Wishlist = () => {
-  const { addToCart } = useCart();
-
+  const { wishlist, setwishlist, addToCart } = useCart();
   const handleaddtocart = (product) => {
     addToCart(product);
 
     toast.success("Item added successfully to the cart!", {
       position: toast.POSITION.TOP_CENTER,
     });
-    removefromWishlist(product);
+  };
+
+  const removefromWishlist = async (shirt) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/removefromwishlist/${shirt._id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "y-token": localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setwishlist((prevCart) =>
+          prevCart.filter((item) => item._id !== shirt._id)
+        );
+        toast.success("Item removed successfully from the cart!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.error(
+          `Failed to remove item from the cart. Status: ${res.status}`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Error removing item from wishlist:", error);
+      toast.error(
+        `Failed to remove item from the cart. Error: ${error.message}`,
+        {
+          position: toast.POSITION.TOP_CENTER,
+        }
+      );
+    }
   };
   const handleRemoveFromWishlist = (shirt) => {
     removefromWishlist(shirt);
-    toast.success("Item removed successfully from the cart!", {
-      position: toast.POSITION.TOP_CENTER,
-    });
   };
-  const { wishlist, removefromWishlist } = useCart();
+
+  // const handleRemoveFromWishlist = (shirt) => {
+  //   removefromWishlist(shirt);
+  //   toast.success("Item removed successfully from the cart!", {
+  //     position: toast.POSITION.TOP_CENTER,
+  //   });
+  // };
 
   const Wishlistitems = wishlist || [];
   const media = useMediaQuery("(max-width:600px)");
@@ -72,13 +111,13 @@ const Wishlist = () => {
                 }}
                 key={shirt.id}
               >
-                <Box width={"80%"} height={media ? "20vh" : "40vh"}>
+                <Box width={"80%"} height={media ? "20vh" : "32vh"}>
                   <CardMedia
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
                       width: media ? "60%" : "85%",
-                      height: media ? "15vh" : "32vh",
+                      height: media ? "15vh" : "30vh",
                     }}
                     image={`${shirt.image}`}
                   />
@@ -86,8 +125,8 @@ const Wishlist = () => {
 
                 <CardContent
                   sx={{
-                    width: media ? "70%" : "null",
-                    height: media ? "7vh" : "null",
+                    width: media ? "70%" : "60%",
+                    height: media ? "7vh" : "15vh",
                   }}
                 >
                   <Typography

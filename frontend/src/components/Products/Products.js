@@ -49,8 +49,8 @@ const Products = () => {
     });
   };
 
-  const handleToWishlist = (product) => {
-    addtoWishlist(product);
+  const handleToWishlist = async (product) => {
+    await addtoWishlist(product.name, product.price, product.image);
 
     toast.success("Item added successfully to the wishlist!", {
       position: toast.POSITION.TOP_CENTER,

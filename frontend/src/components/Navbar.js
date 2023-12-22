@@ -105,11 +105,15 @@ const Navbar = ({ hideSearch, onSearchChange, islogin }) => {
                   label="Products"
                 />
               </Link>
-              <Link to={"/Cart"}>
-                <IconButton>
-                  <ShoppingCartIcon />
-                </IconButton>
-              </Link>
+              {token ? (
+                <Link to={"/Cart"}>
+                  <IconButton>
+                    <ShoppingCartIcon />
+                  </IconButton>
+                </Link>
+              ) : (
+                <Link to={"/login"}></Link>
+              )}
               <Link to={"/wishlist"}>
                 <IconButton>
                   <FavoriteBorderIcon />

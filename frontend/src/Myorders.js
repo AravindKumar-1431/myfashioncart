@@ -11,17 +11,52 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
-
+import axios from "axios";
 const Myorders = () => {
   const media = useMediaQuery("(max-width:600px)");
-  const { order, Cancelorder } = useCart();
-  const cartItems = order || [];
-  const handelCancelorder = (shirt) => {
-    Cancelorder(shirt);
-    toast.success("Item removed successfully from the cart!", {
-      position: toast.POSITION.TOP_CENTER,
-    });
+  const { order, setorder } = useCart();
+  const removefromorders = async (shirt) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/removefromorders/${shirt._id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "y-token": localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setorder((prevCart) =>
+          prevCart.filter((item) => item._id !== shirt._id)
+        );
+        toast.success("Item removed successfully from the cart!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.error(
+          `Failed to remove item from the cart. Status: ${res.status}`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Error removing item from wishlist:", error);
+      toast.error(
+        `Failed to remove item from the cart. Error: ${error.message}`,
+        {
+          position: toast.POSITION.TOP_CENTER,
+        }
+      );
+    }
   };
+  const handleRemoveorders = (shirt) => {
+    removefromorders(shirt);
+  };
+
+  const cartItems = order || [];
   return (
     <Box>
       <Box margin={"5rem"}>
@@ -120,7 +155,7 @@ const Myorders = () => {
                         fontSize: media ? "null" : "11px",
                         fontWeight: media ? "null" : "bold",
                       }}
-                      onClick={() => handelCancelorder(shirt)}
+                      onClick={() => handleRemoveorders(shirt)}
                     >
                       Cancel Order
                     </button>

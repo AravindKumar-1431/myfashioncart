@@ -9,22 +9,22 @@ import Typography from "@mui/material/Typography";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import { useMediaQuery } from "@mui/material";
 import { useCart } from "./Cart/CartContext";
 import { Divider } from "@mui/material";
 
 const ProductSummary = () => {
-  const mediaq = useMediaQuery("(max-width:700px)");
   const { cart, removeFromCart, addtoMyorders } = useCart();
+
   const handleRemoveFromCart = (shirt) => {
     removeFromCart(shirt);
     toast.success("Item removed successfully from the cart!", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
-  const handelconformorder = (shirt) => {
-    addtoMyorders(shirt);
-    toast.success("Order Conformed successfully ", {
+
+  const handelconfirmorder = async (product) => {
+    await addtoMyorders(product.name, product.price, product.image);
+    toast.success("Order Confirmed successfully", {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 2000,
       onClose: () => {
@@ -34,92 +34,70 @@ const ProductSummary = () => {
       },
     });
   };
+
   const cartItems = cart || [];
+
   return (
     <Box>
-      <Box>
-        <Box margin={"5rem"}>
-          <Navbar />
-        </Box>
-        <h2 style={{ margin: "3rem", marginLeft: "45rem", fontSize: "3rem" }}>
-          {" "}
-          Order Summary
-        </h2>
+      <Navbar />
+
+      <Box margin={"5rem"}>
+        <h2 style={{ margin: "3rem", fontSize: "3rem" }}>Order Summary</h2>
+
         {cartItems.length === 0 ? (
-          <p style={{ marginLeft: "40rem", fontSize: "3rem" }}>
-            Your cart is empty
-          </p>
+          <p style={{ margin: "3rem", fontSize: "3rem" }}>Your cart is empty</p>
         ) : (
-          <Box
-            display={"flex"}
-            border={"2px solid black"}
-            borderRadius={"10px"}
-          >
-            <Box>
-              <Navbar />
-            </Box>
-            <Box
-              display={"grid"}
-              gridTemplateColumns={"repeat(2, 2fr)"}
-              gap={"3rem"}
-            >
-              <Box>
-                {cartItems.map((shirt) => (
-                  <Card
-                    sx={{
-                      width: "90%",
-                      margin: "1rem 1rem",
-                      padding: "1rem",
-                      height: "65vh",
-                    }}
-                    key={shirt.id}
-                  >
-                    <Box width={"80%"} height={"40vh"}>
-                      <CardMedia
-                        sx={{
-                          margin: "1rem 1rem",
-                          padding: "1rem",
-                          width: "75%",
-                          height: "30vh",
-                        }}
-                        image={`${shirt.image}`}
-                      />
-                    </Box>
-
-                    <CardContent>
-                      <Typography sx={{ marginBottom: "1rem" }}>
-                        {" "}
-                        {`${shirt.name}`}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          marginLeft: "3rem",
-
-                          fontWeight: "800",
-                        }}
-                      >
-                        $ {`${shirt.price}`}
-                      </Typography>
-                    </CardContent>
-                    <CardActions sx={{ justifyContent: "center" }}>
-                      <button
-                        style={{
-                          width: "40%",
-                          height: "3vh",
-                        }}
-                        onClick={() => handleRemoveFromCart(shirt)}
-                      >
-                        Remove
-                      </button>
-                    </CardActions>
-                  </Card>
-                ))}
-              </Box>
-              {cartItems.map((shirt) => (
+          <Box display={"grid"} gridTemplateColumns={"repeat(2, 1fr)"}>
+            {cartItems.map((shirt) => (
+              <Box key={shirt.id} display="flex" margin="1rem">
                 <Card
-                  style={{
-                    width: "120%",
-                    height: "50vh",
+                  sx={{
+                    width: "50%",
+                    margin: "1rem",
+                    padding: "1rem",
+                    height: "60vh",
+                  }}
+                >
+                  <Box width={"80%"} height={"40vh"}>
+                    <CardMedia
+                      sx={{
+                        margin: "1rem",
+                        padding: "1rem",
+                        width: "70%",
+                        height: "35vh",
+                      }}
+                      image={`${shirt.image}`}
+                    />
+                  </Box>
+
+                  <CardContent>
+                    <Typography
+                      sx={{ marginBottom: "1rem", marginLeft: "2rem" }}
+                    >{`${shirt.name}`}</Typography>
+                    <Typography sx={{ marginLeft: "3rem", fontWeight: "800" }}>
+                      $ {`${shirt.price}`}
+                    </Typography>
+                  </CardContent>
+
+                  <CardActions sx={{ justifyContent: "center" }}>
+                    <button
+                      style={{
+                        width: "40%",
+                        height: "3vh",
+                        marginLeft: "-4rem",
+                      }}
+                      onClick={() => handleRemoveFromCart(shirt)}
+                    >
+                      Remove
+                    </button>
+                  </CardActions>
+                </Card>
+
+                <Card
+                  key={`price-${shirt.id}`}
+                  sx={{
+                    width: "50%",
+                    height: "55vh",
                     padding: "1rem",
                     margin: "2rem",
                   }}
@@ -128,13 +106,13 @@ const ProductSummary = () => {
                   <Divider />
 
                   <Box>
-                    {" "}
                     <h4>
-                      Price &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                      &nbsp; &nbsp; &nbsp;$
-                      {`${shirt.price}`}{" "}
+                      {" "}
+                      Discount &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ${" "}
+                      {`${shirt.price}`}
                     </h4>
+                    <Divider />
                     <Divider />
                     <h4>
                       {" "}
@@ -154,7 +132,6 @@ const ProductSummary = () => {
                     </h4>
                     <Divider />
                     <Box padding={"1rem"}>
-                      {" "}
                       <Link to={"/myorders"}>
                         <button
                           style={{
@@ -165,21 +142,20 @@ const ProductSummary = () => {
                             cursor: "pointer",
                             marginLeft: "4.5rem",
                           }}
-                          onClick={() => handelconformorder(shirt)}
+                          onClick={() => handelconfirmorder(shirt)}
                         >
-                          {" "}
                           Conform Order
                         </button>
                       </Link>
                     </Box>
                   </Box>
                 </Card>
-              ))}
-            </Box>
-            <ToastContainer />
+              </Box>
+            ))}
           </Box>
         )}
       </Box>
+      <ToastContainer />
     </Box>
   );
 };

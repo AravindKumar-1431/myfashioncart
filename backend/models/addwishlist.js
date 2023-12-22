@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
-const addcart = new mongoose.Schema({
+const addwishlist = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -22,4 +22,4 @@ const addcart = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("addcart", addcart);
+module.exports = mongoose.model("addwishlist", addwishlist);

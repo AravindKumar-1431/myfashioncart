@@ -8,7 +8,8 @@ const cors = require("cors");
 const jwtmiddleware = require("./middleware");
 const products = require("./models/products");
 const addcart = require("./models/addcart");
-
+const addwishlist = require("./models/addwishlist");
+const addorders = require("./models/myorders");
 app.use(cors());
 app.use(express.json());
 mongoose
@@ -153,6 +154,7 @@ app.post("/addtocart", jwtmiddleware, async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+
 app.get("/getcart", jwtmiddleware, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -166,28 +168,144 @@ app.get("/getcart", jwtmiddleware, async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("server running");
+app.delete("/removefromcart/:itemId", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const itemId = req.params.itemId;
+    console.log(itemId);
+
+    const removedCartItem = await addcart.findOneAndDelete({
+      _id: itemId,
+      userId: userId,
+    });
+
+    if (removedCartItem) {
+      return res
+        .status(200)
+        .json({ message: "Cart item removed successfully" });
+    } else {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 });
-// app.post("/addtocart", jwtmiddleware, async (req, res) => {
-//   try {
-//     const cartobj = new addcart({
-//       productId: req.body.productId,
-//     });
-//     const cartdata = await cartobj.save();
-//     console.log(cartdata);
-//     return res.status(200).send({ data: cartdata });
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).json({ message: "Internal server error" });
-//   }
-// });
-// app.get("/getcart", async (req, res) => {
-//   try {
-//     let getcart = await addcart.find().populate("productId");
-//     return res.json(getcart);
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).json({ message: "Internal server error" });
-//   }
-// });
+
+app.post("/addtowishlist", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { name, price, image } = req.body;
+
+    const cartItem = {
+      userId: userId,
+      name: name,
+      price: price,
+      image: image,
+    };
+
+    const cartData = await addwishlist.create(cartItem);
+
+    return res.status(200).send({ data: cartData });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/getwishlist", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    let getcart = await addwishlist.find({ userId: userId });
+
+    return res.json(getcart);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.delete("/removefromwishlist/:itemId", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const itemId = req.params.itemId;
+    console.log(itemId);
+
+    const removedCartItem = await addwishlist.findOneAndDelete({
+      _id: itemId,
+      userId: userId,
+    });
+
+    if (removedCartItem) {
+      return res
+        .status(200)
+        .json({ message: "wishlist item removed successfully" });
+    } else {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.post("/addtoorders", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { name, price, image } = req.body;
+
+    const cartItem = {
+      userId: userId,
+      name: name,
+      price: price,
+      image: image,
+    };
+
+    const cartData = await addorders.create(cartItem);
+
+    return res.status(200).send({ data: cartData });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/getorders", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    let getcart = await addorders.find({ userId: userId });
+
+    return res.json(getcart);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+app.delete("/removefromorders/:itemId", jwtmiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const itemId = req.params.itemId;
+    console.log(itemId);
+
+    const removedCartItem = await addorders.findOneAndDelete({
+      _id: itemId,
+      userId: userId,
+    });
+
+    if (removedCartItem) {
+      return res
+        .status(200)
+        .json({ message: "wishlist item removed successfully" });
+    } else {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
+});
