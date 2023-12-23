@@ -7,8 +7,9 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-
+import { useMediaQuery } from "@mui/material";
 const Homepage = () => {
+  const media = useMediaQuery("(max-width:600px)");
   const Shirts = [
     {
       id: 1,
@@ -52,8 +53,8 @@ const Homepage = () => {
           height={"70vh"}
           padding={"2"}
           sx={{
-            "@media  (max-width: 700px)": {
-              width: "70%",
+            "@media  (max-width: 600px)": {
+              width: "85%",
 
               height: "30vh",
             },
@@ -72,20 +73,17 @@ const Homepage = () => {
             <button>Shop Now</button>
           </Link>
         </Box>
-        <Box display={"flex"}>
+        <Box
+          display={"grid"}
+          gridTemplateColumns={media ? "repeat(2,1fr)" : "repeat(4,1fr)"}
+        >
           {Shirts.map((shirt) => (
             <Card
               sx={{
                 width: "75%",
-                height: "75vh",
+                height: media ? "29vh" : "75vh",
                 margin: "1rem",
                 padding: "1rem",
-                "@media  (max-width: 700px)": {
-                  width: "70%",
-                  display: "grid",
-                  gridAutoColumns: "repeat(2,1fr)",
-                  height: "30vh",
-                },
               }}
               key={shirt.id}
             >
@@ -99,29 +97,27 @@ const Homepage = () => {
                     "@media  (max-width: 700px)": {
                       width: "70%",
 
-                      height: "15vh",
+                      height: "14.5vh",
                     },
                   }}
                   image={`${shirt.Image}`}
                 />
               </Box>
-              <CardContent
-                sx={{
-                  "@media  (max-width: 700px)": {},
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{ "@media (max-width: 700px)": { fontSize: "10px" } }}
-                >
+              <CardContent>
+                <Typography sx={{ fontSize: media ? "17px" : "10px" }}>
                   {" "}
                   {`${shirt.name}`}
                 </Typography>
               </CardContent>
               <Link to={"/products"}>
                 <CardActions sx={{ justifyContent: "center" }}>
-                  <button>{`${shirt.Button}`}</button>
+                  <button
+                    style={{
+                      width: media ? "50%" : "null",
+                      height: media ? "3vh" : "null",
+                      fontSize: media ? "17px" : "null",
+                    }}
+                  >{`${shirt.Button}`}</button>
                 </CardActions>
               </Link>
             </Card>

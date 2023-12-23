@@ -83,7 +83,7 @@ const Myorders = () => {
           </Box>
           <Box
             display={"grid"}
-            gridTemplateColumns={media ? "repeat(3, 1fr)" : "repeat(4, 1fr)"}
+            gridTemplateColumns={media ? "repeat(2, 1fr)" : "repeat(4, 1fr)"}
           >
             {cartItems.map((shirt) => (
               <Card
@@ -103,8 +103,8 @@ const Myorders = () => {
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: media ? "60%" : "80%",
-                      height: media ? "15vh" : "30vh",
+                      width: media ? "80%" : "80%",
+                      height: media ? "18vh" : "30vh",
                     }}
                     image={`${shirt.image}`}
                   />
@@ -120,14 +120,14 @@ const Myorders = () => {
                     sx={{
                       marginLeft: media ? "2rem" : "2rem",
                       marginBottom: "1rem",
-                      fontSize: media ? "10px" : "null",
+                      fontSize: media ? "20px" : "null",
                     }}
                   >{`${shirt.name}`}</Typography>
                   <Typography
                     sx={{
                       marginLeft: media ? "2rem" : "4rem",
                       fontWeight: "800",
-                      fontSize: media ? "10px" : " null",
+                      fontSize: media ? "20px" : " null",
                     }}
                   >
                     $ {`${shirt.price}`}
@@ -152,7 +152,7 @@ const Myorders = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         marginLeft: "1.5rem",
-                        fontSize: media ? "null" : "11px",
+                        fontSize: media ? "17px" : "11px",
                         fontWeight: media ? "null" : "bold",
                       }}
                       onClick={() => handleRemoveorders(shirt)}

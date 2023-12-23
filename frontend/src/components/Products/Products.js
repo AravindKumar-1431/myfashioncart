@@ -71,13 +71,13 @@ const Products = () => {
       <Box>
         <Box
           display={"grid"}
-          gridTemplateColumns={mediaq ? "repeat(3, 1fr)" : "repeat(4, 1fr)"}
+          gridTemplateColumns={mediaq ? "repeat(2, 1fr)" : "repeat(4, 1fr)"}
         >
           {filteredData.map((shirt) => (
             <div key={shirt.id}>
               <Card
                 sx={{
-                  width: mediaq ? "70%" : "70%",
+                  width: mediaq ? "80%" : "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
                   height: mediaq ? "40vh" : "60vh",
@@ -91,8 +91,8 @@ const Products = () => {
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: mediaq ? "55%" : "85%",
-                      height: mediaq ? "14vh" : " 31vh",
+                      width: mediaq ? "100%" : "85%",
+                      height: mediaq ? "20vh" : " 31vh",
                     }}
                     image={shirt.image}
                   />
@@ -100,7 +100,7 @@ const Products = () => {
 
                 <CardContent
                   sx={{
-                    width: mediaq ? "60%" : "null",
+                    width: mediaq ? "75%" : "null",
                     height: mediaq ? "12vh" : "null",
                   }}
                 >
@@ -108,7 +108,7 @@ const Products = () => {
                     sx={{
                       marginBottom: "1rem",
                       fontWeight: "bold",
-                      fontSize: mediaq ? "10px" : " null",
+                      fontSize: mediaq ? "20px" : " null",
                       marginLeft: "1rem",
                     }}
                   >
@@ -116,9 +116,9 @@ const Products = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      marginLeft: mediaq ? "2rem" : "5rem",
+                      marginLeft: mediaq ? "4rem" : "5rem",
                       fontWeight: "800",
-                      fontSize: mediaq ? "10px" : " null",
+                      fontSize: mediaq ? "17px" : " null",
                     }}
                   >
                     $ {shirt.price}
@@ -135,6 +135,12 @@ const Products = () => {
                     borderRadius={"20px"}
                     margin={"1rem 1rem"}
                     size="small"
+                    style={{
+                      width: mediaq ? "50%" : "null",
+                      height: mediaq ? "3vh" : "null",
+                      fontSize: mediaq ? "17px" : "null",
+                      marginTop: mediaq ? "-2rem" : "null",
+                    }}
                     onClick={() => handleAddToCart(shirt)}
                   >
                     Add to cart

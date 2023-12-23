@@ -85,15 +85,15 @@ const Cart = () => {
           </Box>
           <Box
             display={"grid"}
-            gridTemplateColumns={media ? "repeat(3, 1fr)" : "repeat(4, 1fr)"}
+            gridTemplateColumns={media ? "repeat(2, 1fr)" : "repeat(4, 1fr)"}
           >
             {cartItems.map((shirt) => (
               <Card
                 sx={{
-                  width: "70%",
+                  width: media ? "80%" : "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
-                  height: media ? "45vh" : "55vh",
+                  height: media ? "43vh" : "60vh",
                 }}
                 key={shirt.id}
               >
@@ -103,8 +103,8 @@ const Cart = () => {
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: media ? "60%" : "85%",
-                      height: media ? "15vh" : "32vh",
+                      width: media ? "100%" : "85%",
+                      height: media ? "20vh" : " 31vh",
                     }}
                     image={`${shirt.image}`}
                   />
@@ -112,15 +112,16 @@ const Cart = () => {
 
                 <CardContent
                   sx={{
-                    width: media ? "70%" : "null",
-                    height: media ? "10vh" : "null",
+                    width: media ? "75%" : "null",
+                    height: media ? "12vh" : "null",
                   }}
                 >
                   <Typography
                     sx={{
                       marginBottom: "1rem",
-                      fontSize: media ? "10px" : "null",
-                      //   height: media ? "3vh" : "null",
+                      fontWeight: "bold",
+                      fontSize: media ? "20px" : " null",
+                      marginLeft: "1rem",
                     }}
                   >
                     {" "}
@@ -128,9 +129,9 @@ const Cart = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      marginLeft: media ? "2rem" : "5rem",
-
+                      marginLeft: media ? "4rem" : "5rem",
                       fontWeight: "800",
+                      fontSize: media ? "17px" : " null",
                     }}
                   >
                     $ {`${shirt.price}`}
@@ -146,13 +147,16 @@ const Cart = () => {
                     sx={{
                       justifyContent: "center",
                       gap: "2rem",
+                      display: "flex",
+                      flexDirection: media ? "column" : "null",
                     }}
                   >
                     <button
                       style={{
-                        width: "40%",
-                        height: "3vh",
-                        fontSize: media ? "10px" : "null",
+                        width: media ? "50%" : "null",
+                        height: media ? "3vh" : "null",
+                        fontSize: media ? "17px" : "null",
+                        marginTop: media ? "-5rem" : "null",
                       }}
                       onClick={() => handleRemoveFromCart(shirt)}
                     >
@@ -167,7 +171,9 @@ const Cart = () => {
                           color: "white",
                           fontWeight: media ? "300" : "600",
                           cursor: "pointer",
-                          fontSize: media ? "13px" : "null",
+                          width: media ? "80px" : "null",
+                          height: media ? "3vh" : "null",
+                          fontSize: media ? "17px" : "null",
                         }}
                       >
                         Buy
