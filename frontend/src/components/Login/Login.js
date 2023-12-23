@@ -36,9 +36,9 @@ const Login = (props) => {
   }
   function submitform(e) {
     e.preventDefault();
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     axios
-      .post("http://localhost:5000/login", data)
+      .post(`${apiUrl}/login`, data)
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         props.onLogin(response.data);
