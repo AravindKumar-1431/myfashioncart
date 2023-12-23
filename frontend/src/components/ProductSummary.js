@@ -13,7 +13,7 @@ import { useCart } from "./Cart/CartContext";
 import { Divider } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
 const ProductSummary = () => {
-  const media = useMediaQuery("(max-width:600px)");
+  const media = useMediaQuery("(max-width:400px)");
   const { cart, removeFromCart, addtoMyorders } = useCart();
 
   const handleRemoveFromCart = (shirt) => {
@@ -61,7 +61,7 @@ const ProductSummary = () => {
                     width: media ? "80%" : "50%",
                     margin: "1rem",
                     padding: "1rem",
-                    height: margin ? "37vh" : "60vh",
+                    height: margin ? "45vh" : "60vh",
                     marginLeft: "-4rem",
                   }}
                 >
@@ -80,18 +80,18 @@ const ProductSummary = () => {
                   <CardContent sx={{}}>
                     <Typography
                       sx={{
-                        marginTop: media ? "-17rem" : "null",
-                        marginLeft: "2rem",
+                        marginTop: media ? "-8rem" : "null",
+                        marginLeft: media ? "1rem" : "2rem",
                         width: media ? "90%" : "70%",
                         height: media ? "10vh" : "35vh",
-                        fontSize: media ? "18px" : "null",
+                        fontSize: media ? "12px" : "null",
                       }}
                     >{`${shirt.name}`}</Typography>
                     <Typography
                       sx={{
-                        marginLeft: "3rem",
+                        marginLeft: media ? "1rem" : "3rem",
                         fontWeight: "800",
-                        marginTop: media ? "-4rem" : "null",
+                        marginTop: media ? "-1rem" : "null",
                       }}
                     >
                       $ {`${shirt.price}`}
@@ -101,11 +101,11 @@ const ProductSummary = () => {
                   <CardActions sx={{ justifyContent: "center" }}>
                     <button
                       style={{
-                        width: media ? "60%" : "40%",
+                        width: media ? "90%" : "40%",
                         height: "3vh",
-                        marginLeft: media ? "1rem" : "",
-                        marginTop: media ? "-18rem" : "null",
-                        fontSize: media ? "18px" : "null",
+                        marginLeft: media ? "1.5rem" : "",
+                        marginTop: media ? "-7rem" : "null",
+                        fontSize: media ? "16px" : "null",
                       }}
                       onClick={() => handleRemoveFromCart(shirt)}
                     >
@@ -118,7 +118,7 @@ const ProductSummary = () => {
                   key={`price-${shirt.id}`}
                   sx={{
                     width: media ? "70%" : "50%",
-                    height: media ? "30vh" : "55vh",
+                    height: media ? "70vh" : "55vh",
                     padding: "1rem",
                     margin: "2rem",
                   }}
@@ -148,7 +148,7 @@ const ProductSummary = () => {
                         <h4>Delivery Charges &nbsp; &nbsp; &nbsp; Free</h4>
                         <Divider />
                         <h4>
-                          Total &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                          &nbsp; &nbsp; &nbsp; &nbsp;Total &nbsp; &nbsp; &nbsp;
                           $ 80
                         </h4>
                         <Divider />
@@ -162,9 +162,9 @@ const ProductSummary = () => {
                                 fontWeight: "800",
                                 cursor: "pointer",
                                 marginLeft: media ? "-1rem" : "4.5rem",
-                                fontSize: "17px",
+                                fontSize: "9px",
 
-                                width: media ? "100%" : "null",
+                                width: media ? "150%" : "null",
                                 height: media ? "4vh" : "null",
                               }}
                               onClick={() => handelconfirmorder(shirt)}

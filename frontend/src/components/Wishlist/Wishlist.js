@@ -69,7 +69,7 @@ const Wishlist = () => {
   // };
 
   const Wishlistitems = wishlist || [];
-  const media = useMediaQuery("(max-width:600px)");
+  const media = useMediaQuery("(max-width:400px)");
   return (
     <Box>
       <Box margin={"5rem"}>
@@ -89,25 +89,21 @@ const Wishlist = () => {
           Your wishlist is empty
         </p>
       ) : (
-        <Box
-          border={"2px solid black"}
-          borderRadius={"10px"}
-          margin={"1rem 1rem"}
-        >
+        <Box borderRadius={"10px"}>
           <Box>
             <Navbar />
           </Box>
           <Box
             display={"grid"}
-            gridTemplateColumns={media ? "repeat(3, 1fr)" : "repeat(4, 1fr)"}
+            gridTemplateColumns={media ? "repeat(2, 1fr)" : "repeat(4, 1fr)"}
           >
             {Wishlistitems.map((shirt) => (
               <Card
                 sx={{
-                  width: "70%",
+                  width: media ? "90%" : "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
-                  height: media ? "43vh" : "55vh",
+                  height: media ? "50vh" : "60vh",
                 }}
                 key={shirt.id}
               >
@@ -116,8 +112,8 @@ const Wishlist = () => {
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: media ? "60%" : "85%",
-                      height: media ? "15vh" : "30vh",
+                      width: media ? "89%" : "85%",
+                      height: media ? "22vh" : " 32.5vh",
                     }}
                     image={`${shirt.image}`}
                   />
@@ -125,52 +121,67 @@ const Wishlist = () => {
 
                 <CardContent
                   sx={{
-                    width: media ? "70%" : "60%",
-                    height: media ? "7vh" : "15vh",
+                    width: media ? "75%" : "null",
+                    height: media ? "12vh" : "null",
+                    marginBottom: media ? "8rem" : "null",
                   }}
                 >
                   <Typography
                     sx={{
-                      marginBottom: "1rem",
-                      fontSize: media ? "10px" : "null",
+                      marginTop: media ? "2rem" : "2rem",
+                      marginBottom: media ? "2rem" : "1rem",
+                      fontWeight: "bold",
+                      fontSize: media ? "14px" : " null",
                     }}
                   >{`${shirt.name}`}</Typography>
                   <Typography
                     sx={{
+                      marginTop: media ? "2rem" : "2rem",
                       marginLeft: media ? "2rem" : "5rem",
                       fontWeight: "800",
-                      fontSize: media ? "10px" : " null",
+                      fontSize: media ? "17px" : " null",
                     }}
                   >
                     $ {`${shirt.price}`}
                   </Typography>
                 </CardContent>
                 <Box
-                  sx={{
-                    display: media ? "flex" : "null",
-                    flexDirection: media ? "column" : "",
-                  }}
+                  sx={
+                    {
+                      // display: media ? "flex" : "null",
+                      // flexDirection: media ? "row" : "",
+                    }
+                  }
                 >
-                  <CardActions sx={{ justifyContent: "center" }}>
+                  <CardActions
+                    sx={{
+                      justifyContent: "center",
+                      marginTop: media ? "-5rem" : "0.5rem",
+                    }}
+                  >
                     <Box
-                      sx={{
-                        display: media ? "flex" : "null",
-                        flexDirection: media ? "column" : "",
-                      }}
+                    // sx={{
+                    //   display: media ? "flex" : "null",
+                    //   flexDirection: media ? "column" : "",
+                    // }}
                     >
                       <button
                         style={{
-                          width: media ? "100%" : "40%",
-                          height: "3vh",
+                          width: media ? "100%" : "100%",
+                          height: "4vh",
                           fontSize: media ? "10px" : "null",
                         }}
                         onClick={() => handleRemoveFromWishlist(shirt)}
                       >
                         remove
                       </button>
+                    </Box>
+
+                    <Box>
+                      {" "}
                       <button
                         style={{
-                          width: media ? "100%" : "40%",
+                          width: media ? "100%" : "100%",
                           height: "4vh",
                           fontSize: media ? "10px" : "null",
                         }}

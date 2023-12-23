@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { useMediaQuery } from "@mui/material";
 const labelStyle = { mt: 1, mb: 2 };
 
 const Signup = () => {
@@ -69,9 +70,15 @@ const Signup = () => {
     localStorage.setItem("signupEmail", singup.email);
     localStorage.setItem("signupPassword", singup.password);
   }
+  const media = useMediaQuery("(max-width:400px)");
   return (
-    <Dialog PaperProps={{ style: { borderRadius: 20 } }} open={true}>
-      <Box sx={{ ml: "auto", padding: 1 }}>
+    <Dialog
+      PaperProps={{
+        style: { borderRadius: 20, marginTop: media ? "10rem" : "6rem" },
+      }}
+      open={true}
+    >
+      <Box sx={{ ml: "auto", padding: 1, marginTop: media ? "-1rem" : "3rem" }}>
         <IconButton onClick={crossHandler}>
           <ClearRoundedIcon />
         </IconButton>
@@ -79,13 +86,13 @@ const Signup = () => {
 
       <homepage />
 
-      <Box>
+      <Box height={media ? "75vh" : "null"}>
         <Typography variant="h4" textAlign={"center"}>
           {" "}
           Signup
         </Typography>
 
-        <form onSubmit={submitform}>
+        <form onSubmit={submitform} style={{}}>
           <Box
             padding={6}
             display={"flex"}
@@ -95,7 +102,11 @@ const Signup = () => {
             margin={"auto"}
             alignContent={"center"}
           >
-            <FormLabel sx={labelStyle}>Name</FormLabel>
+            <FormLabel
+              sx={{ labelStyle, marginBottom: media ? "0rem" : "null" }}
+            >
+              Name
+            </FormLabel>
             <TextField
               variant="standard"
               margin="normal"
@@ -105,7 +116,11 @@ const Signup = () => {
               onChange={onchangehandle}
               // inputRef={nameRef}
             />
-            <FormLabel sx={labelStyle}>Email</FormLabel>
+            <FormLabel
+              sx={{ labelStyle, marginBottom: media ? "0rem" : "null" }}
+            >
+              Email
+            </FormLabel>
             <TextField
               variant="standard"
               margin="normal"
@@ -115,7 +130,11 @@ const Signup = () => {
               onChange={onchangehandle}
               // inputRef={emailRef}
             />
-            <FormLabel sx={labelStyle}>Password</FormLabel>
+            <FormLabel
+              sx={{ labelStyle, marginBottom: media ? "0rem" : "null" }}
+            >
+              Password
+            </FormLabel>
             <TextField
               variant="standard"
               margin="normal"
@@ -125,7 +144,11 @@ const Signup = () => {
               onChange={onchangehandle}
               // inputRef={passwordRef}
             />
-            <FormLabel sx={labelStyle}>Confrim Password</FormLabel>
+            <FormLabel
+              sx={{ labelStyle, marginBottom: media ? "0rem" : "null" }}
+            >
+              Confrim Password
+            </FormLabel>
             <TextField
               variant="standard"
               margin="normal"
@@ -137,10 +160,18 @@ const Signup = () => {
               // inputRef={passwordRef}
             />
             {password !== confrimpassword && (
-              <div style={{ color: "red" }}>Passwords do not match</div>
+              <div style={{ color: "red", fontSize: media ? "10px" : "null" }}>
+                Passwords do not match
+              </div>
             )}
             <Button
-              sx={{ mt: 2, borderRadius: 10, bgcolor: "#2b2d42" }}
+              sx={{
+                mt: 2,
+                borderRadius: 10,
+                bgcolor: "#2b2d42",
+                width: media ? "30%" : "null",
+                marginLeft: media ? "2rem" : "null",
+              }}
               // onClick={handleChange}
               type="submit"
               fullWidth
@@ -150,8 +181,17 @@ const Signup = () => {
               Signup
             </Button>
             <Link to={"/login"}>
-              <Button sx={{ mt: 2, borderRadius: 10 }} fullWidth>
-                Switch to
+              <Button
+                sx={{
+                  mt: 2,
+                  borderRadius: 10,
+                  width: media ? "30%" : "null",
+                  marginLeft: media ? "1.5rem" : "null",
+                  fontSize: media ? "10px" : "null",
+                }}
+                fullWidth
+              >
+                Switch to login
               </Button>
             </Link>
           </Box>

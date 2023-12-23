@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import axios from "axios";
 const Myorders = () => {
-  const media = useMediaQuery("(max-width:600px)");
+  const media = useMediaQuery("(max-width:400px)");
   const { order, setorder } = useCart();
   const apiUrl = process.env.REACT_APP_API_URL;
   const removefromorders = async (shirt) => {
@@ -63,16 +63,18 @@ const Myorders = () => {
       <Box margin={"5rem"}>
         <Navbar />
       </Box>
-      <h2
-        style={{
-          margin: "3rem",
-          marginLeft: media ? "10rem" : "45rem",
-          fontSize: "3rem",
-        }}
-      >
-        {" "}
-        my orders
-      </h2>
+      <center>
+        <h2
+          style={{
+            margin: "3rem",
+            // marginLeft: media ? "10rem" : "45rem",
+            fontSize: "3rem",
+          }}
+        >
+          {" "}
+          my orders
+        </h2>
+      </center>
       {cartItems.length === 0 ? (
         <p style={{ marginLeft: media ? "8rem" : "40rem", fontSize: "3rem" }}>
           Your Orders are empty
@@ -89,10 +91,10 @@ const Myorders = () => {
             {cartItems.map((shirt) => (
               <Card
                 sx={{
-                  width: media ? "75%" : "70%",
+                  width: media ? "90%" : "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
-                  height: media ? "38vh" : "53vh",
+                  height: media ? "60vh" : "60vh",
                 }}
                 key={shirt.id}
               >
@@ -104,8 +106,8 @@ const Myorders = () => {
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: media ? "80%" : "80%",
-                      height: media ? "18vh" : "30vh",
+                      width: media ? "90%" : "85%",
+                      height: media ? "20vh" : " 31vh",
                     }}
                     image={`${shirt.image}`}
                   />
@@ -113,15 +115,17 @@ const Myorders = () => {
 
                 <CardContent
                   sx={{
-                    width: media ? "90%" : "80%",
-                    height: media ? "7vh" : "10vh",
+                    width: media ? "75%" : "null",
+                    height: media ? "12vh" : "null",
+                    marginBottom: media ? "8rem" : "null",
                   }}
                 >
                   <Typography
                     sx={{
-                      marginLeft: media ? "2rem" : "2rem",
-                      marginBottom: "1rem",
-                      fontSize: media ? "20px" : "null",
+                      marginTop: media ? "2rem" : "null",
+                      marginBottom: media ? "2rem" : "1rem",
+                      fontWeight: "bold",
+                      fontSize: media ? "14px" : " null",
                     }}
                   >{`${shirt.name}`}</Typography>
                   <Typography
@@ -148,13 +152,14 @@ const Myorders = () => {
                   >
                     <button
                       style={{
-                        width: media ? "85%" : "11rem",
-                        height: media ? "5vh" : "3vh",
+                        width: media ? "90%" : "50%",
+                        height: media ? "6vh" : "4vh",
                         alignItems: "center",
                         justifyContent: "center",
-                        marginLeft: "1.5rem",
-                        fontSize: media ? "17px" : "11px",
+                        marginLeft: media ? "-1rem" : "-2rem",
+                        fontSize: media ? "13px" : "11px",
                         fontWeight: media ? "null" : "bold",
+                        marginTop: media ? "-5rem" : "2rem",
                       }}
                       onClick={() => handleRemoveorders(shirt)}
                     >

@@ -11,6 +11,7 @@ import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { useMediaQuery } from "@mui/material";
 const labelStyle = { mt: 1, mb: 2 };
 
 const Login = (props) => {
@@ -62,10 +63,15 @@ const Login = (props) => {
 
     console.log(data);
   }
-
+  const media = useMediaQuery("(max-width:400px)");
   return (
-    <Dialog PaperProps={{ style: { borderRadius: 20 } }} open={true}>
-      <Box sx={{ ml: "auto", padding: 1 }}>
+    <Dialog
+      PaperProps={{
+        style: { borderRadius: 20, marginTop: media ? "5rem" : "null" },
+      }}
+      open={true}
+    >
+      <Box sx={{ ml: "auto", padding: 1, marginTop: media ? "1rem" : "null" }}>
         <IconButton onClick={crossHandler}>
           <ClearRoundedIcon />
         </IconButton>
@@ -106,7 +112,13 @@ const Login = (props) => {
             onChange={handelform}
           />
           <Button
-            sx={{ mt: 2, borderRadius: 10, bgcolor: "#2b2d42" }}
+            sx={{
+              mt: 2,
+              borderRadius: 10,
+              bgcolor: "#2b2d42",
+              width: media ? "30%" : "null",
+              marginLeft: media ? "2rem" : "null",
+            }}
             type="submit"
             name="submit"
             fullWidth
@@ -117,14 +129,21 @@ const Login = (props) => {
           <div
             style={{
               justifyContent: "center",
-              marginLeft: "7rem",
+              marginLeft: media ? "1rem" : "7rem",
               marginTop: "2rem",
             }}
           >
             {props.name}
           </div>
           <Link to={"/signup"}>
-            <Button sx={{ mt: 2, borderRadius: 10 }} fullWidth>
+            <Button
+              sx={{
+                mt: 2,
+                borderRadius: 10,
+                marginLeft: media ? "-7rem" : "null",
+              }}
+              fullWidth
+            >
               signup
             </Button>
           </Link>

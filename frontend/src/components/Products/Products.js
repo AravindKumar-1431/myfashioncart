@@ -16,7 +16,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 const Products = () => {
-  const mediaq = useMediaQuery("(max-width:600px)");
+  const mediaq = useMediaQuery("(max-width:400px)");
   const [token] = useState(localStorage.getItem("token"));
   const [search, setSearch] = useState("");
   const { addToCart, addtoWishlist } = useCart();
@@ -70,6 +70,9 @@ const Products = () => {
     <Box marginTop={"5rem"}>
       <Navbar onSearchChange={handleSearchChange} />
       <Box>
+        <center>
+          {mediaq ? <h3>keep shoping...</h3> : <h1>keep shoping...</h1>}
+        </center>
         <Box
           display={"grid"}
           gridTemplateColumns={mediaq ? "repeat(2, 1fr)" : "repeat(4, 1fr)"}
@@ -78,10 +81,10 @@ const Products = () => {
             <div key={shirt.id}>
               <Card
                 sx={{
-                  width: mediaq ? "80%" : "70%",
+                  width: mediaq ? "90%" : "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
-                  height: mediaq ? "40vh" : "60vh",
+                  height: mediaq ? "52vh" : "60vh",
                 }}
               >
                 <Box width={"80%"} height={mediaq ? "25vh" : "40vh"}>
@@ -92,7 +95,7 @@ const Products = () => {
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: mediaq ? "100%" : "85%",
+                      width: mediaq ? "80%" : "85%",
                       height: mediaq ? "20vh" : " 31vh",
                     }}
                     image={shirt.image}
@@ -102,22 +105,24 @@ const Products = () => {
                 <CardContent
                   sx={{
                     width: mediaq ? "75%" : "null",
-                    height: mediaq ? "12vh" : "null",
+                    height: mediaq ? "30vh" : "null",
                   }}
                 >
                   <Typography
                     sx={{
-                      marginBottom: "1rem",
+                      marginTop: mediaq ? "2rem" : "1rem",
+                      marginBottom: mediaq ? "2rem" : "1rem",
                       fontWeight: "bold",
-                      fontSize: mediaq ? "20px" : " null",
-                      marginLeft: "1rem",
+                      fontSize: mediaq ? "13px" : " null",
+                      marginLeft: mediaq ? "2rem" : "",
+                      width: mediaq ? "90%" : "null",
                     }}
                   >
                     {shirt.name}
                   </Typography>
                   <Typography
                     sx={{
-                      marginLeft: mediaq ? "4rem" : "5rem",
+                      marginLeft: mediaq ? "2rem" : "5rem",
                       fontWeight: "800",
                       fontSize: mediaq ? "17px" : " null",
                     }}
@@ -137,10 +142,10 @@ const Products = () => {
                     margin={"1rem 1rem"}
                     size="small"
                     style={{
-                      width: mediaq ? "50%" : "null",
+                      width: mediaq ? "70%" : "null",
                       height: mediaq ? "3vh" : "null",
                       fontSize: mediaq ? "17px" : "null",
-                      marginTop: mediaq ? "-2rem" : "null",
+                      marginTop: mediaq ? "-5rem" : "null",
                     }}
                     onClick={() => handleAddToCart(shirt)}
                   >

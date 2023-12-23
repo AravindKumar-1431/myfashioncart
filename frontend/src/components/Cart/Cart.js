@@ -58,28 +58,30 @@ const Cart = () => {
     removeFromCart(shirt);
   };
   const cartItems = cart || [];
-  const media = useMediaQuery("(max-width:600px)");
+  const media = useMediaQuery("(max-width:400px)");
   return (
     <Box>
       <Box margin={"5rem"}>
         <Navbar />
       </Box>
-      <h2
-        style={{
-          margin: "3rem",
-          marginLeft: media ? "10rem" : "45rem",
-          fontSize: "3rem",
-        }}
-      >
+      <center>
         {" "}
-        My Cart
-      </h2>
+        <h2
+          style={{
+            margin: "3rem",
+            // marginLeft: media ? "10rem" : "45rem",
+            fontSize: "2rem",
+          }}
+        >
+          My Cart
+        </h2>
+      </center>
       {cartItems.length === 0 ? (
         <p style={{ marginLeft: media ? "8rem" : "40rem", fontSize: "3rem" }}>
           Your cart is empty
         </p>
       ) : (
-        <Box border={"2px solid black"} borderRadius={"10px"}>
+        <Box borderRadius={"10px"}>
           <Box>
             <Navbar />
           </Box>
@@ -90,10 +92,10 @@ const Cart = () => {
             {cartItems.map((shirt) => (
               <Card
                 sx={{
-                  width: media ? "80%" : "70%",
+                  width: media ? "90%" : "70%",
                   margin: "1rem 1rem",
                   padding: "1rem",
-                  height: media ? "43vh" : "60vh",
+                  height: media ? "60vh" : "60vh",
                 }}
                 key={shirt.id}
               >
@@ -103,7 +105,7 @@ const Cart = () => {
                     sx={{
                       margin: "1rem 1rem",
                       padding: "1rem",
-                      width: media ? "100%" : "85%",
+                      width: media ? "90%" : "85%",
                       height: media ? "20vh" : " 31vh",
                     }}
                     image={`${shirt.image}`}
@@ -114,14 +116,15 @@ const Cart = () => {
                   sx={{
                     width: media ? "75%" : "null",
                     height: media ? "12vh" : "null",
+                    marginBottom: media ? "8rem" : "null",
                   }}
                 >
                   <Typography
                     sx={{
-                      marginBottom: "1rem",
+                      marginTop: media ? "2rem" : "null",
+                      marginBottom: media ? "2rem" : "1rem",
                       fontWeight: "bold",
-                      fontSize: media ? "20px" : " null",
-                      marginLeft: "1rem",
+                      fontSize: media ? "14px" : " null",
                     }}
                   >
                     {" "}
@@ -129,7 +132,7 @@ const Cart = () => {
                   </Typography>
                   <Typography
                     sx={{
-                      marginLeft: media ? "4rem" : "5rem",
+                      marginLeft: media ? "2rem" : "5rem",
                       fontWeight: "800",
                       fontSize: media ? "17px" : " null",
                     }}

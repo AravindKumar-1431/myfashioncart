@@ -9,7 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
 const Homepage = () => {
-  const media = useMediaQuery("(max-width:600px)");
+  const media = useMediaQuery("(max-width:400px)");
   const Shirts = [
     {
       id: 1,
@@ -81,7 +81,7 @@ const Homepage = () => {
             <Card
               sx={{
                 width: "75%",
-                height: media ? "29vh" : "75vh",
+                height: media ? "45vh" : "75vh",
                 margin: "1rem",
                 padding: "1rem",
               }}
@@ -92,13 +92,8 @@ const Homepage = () => {
                   sx={{
                     margin: "1rem 1rem",
                     padding: "1rem",
-                    width: "100%",
-                    height: "50vh",
-                    "@media  (max-width: 700px)": {
-                      width: "70%",
-
-                      height: "14.5vh",
-                    },
+                    width: media ? "50%" : "100%",
+                    height: media ? "15vh" : "50vh",
                   }}
                   image={`${shirt.Image}`}
                 />
@@ -109,11 +104,11 @@ const Homepage = () => {
                   {`${shirt.name}`}
                 </Typography>
               </CardContent>
-              <Link to={"/products"}>
+              <Link to={"/products"} style={{ textDecoration: "none" }}>
                 <CardActions sx={{ justifyContent: "center" }}>
                   <button
                     style={{
-                      width: media ? "50%" : "null",
+                      width: media ? "90%" : "null",
                       height: media ? "3vh" : "null",
                       fontSize: media ? "17px" : "null",
                     }}

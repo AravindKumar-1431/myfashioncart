@@ -19,7 +19,7 @@ import { useMediaQuery } from "@mui/material";
 
 const Navbar = ({ hideSearch, onSearchChange, islogin }) => {
   useEffect(() => {}, [islogin]);
-  const showMenuIcon = useMediaQuery("(max-width:600px)");
+  const showMenuIcon = useMediaQuery("(max-width:400px)");
   const [showTabs, setShowTabs] = useState(false);
   const [showCloseIcon, setShowCloseIcon] = useState(false);
   const [value, setValue] = useState(0); // Add state for the Tabs value
@@ -34,7 +34,7 @@ const Navbar = ({ hideSearch, onSearchChange, islogin }) => {
   return (
     <Box>
       <AppBar color={"inherit"}>
-        <Toolbar>
+        <Toolbar sx={{ height: showMenuIcon ? "5vh" : "" }}>
           <h2>FashionCart</h2>
           {!hideSearch && (
             <Box
@@ -45,7 +45,12 @@ const Navbar = ({ hideSearch, onSearchChange, islogin }) => {
               }}
             >
               <Link to={"/products"}>
-                <Box>
+                <Box
+                // sx={{
+                //   marginBottom: showMenuIcon ? "-10rem" : "null",
+                //   marginLeft: showMenuIcon ? "-40rem" : "null",
+                // }}
+                >
                   <Input
                     type="text"
                     placeholder="Search"
@@ -55,17 +60,17 @@ const Navbar = ({ hideSearch, onSearchChange, islogin }) => {
               </Link>
               <Box
                 marginTop={"-1.5rem"}
-                marginLeft={showMenuIcon ? "-1.5rem" : "null"}
+                marginLeft={showMenuIcon ? "-1.5rem" : "7rem"}
               >
                 <SearchIcon
                   sx={{
-                    width: showMenuIcon ? "9%" : "35%",
+                    width: showMenuIcon ? "15%" : "35%",
                   }}
                 />
               </Box>
             </Box>
           )}
-          <Box></Box>
+
           <Box
             width={"10%"}
             margin={"auto"}
@@ -73,81 +78,91 @@ const Navbar = ({ hideSearch, onSearchChange, islogin }) => {
           >
             {showMenuIcon && (
               <IconButton onClick={handleMenuClick}>
-                {showCloseIcon ? <CloseIcon /> : <MenuIcon />}
+                {showCloseIcon ? (
+                  <CloseIcon
+                    sx={{
+                      marginLeft: showMenuIcon ? "-25rem" : "null",
+                      marginTop: showMenuIcon ? "4rem" : "null",
+                    }}
+                  />
+                ) : (
+                  <MenuIcon />
+                )}
               </IconButton>
             )}
           </Box>
 
-          {!hideSearch && (
-            <Box
-              display={!showMenuIcon || showTabs ? "block" : "none"}
-              alignItems="center"
-              justifyContent="center"
-              marginLeft={showMenuIcon ? "-20rem" : "null"}
+          <Box
+            display={!showMenuIcon || showTabs ? "block" : "none"}
+            alignItems="center"
+            justifyContent="center"
+            marginLeft={showMenuIcon ? "-20rem" : "null"}
+            marginTop={showMenuIcon ? "11rem" : "null"}
+            boxShadow={showMenuIcon ? "2px 2px 2px" : "null"}
+            bgcolor={"white"}
+          >
+            <Tabs
+              orientation={showMenuIcon ? "vertical" : "horizontal"}
+              value={value} // Set the value prop
+              onChange={(event, newValue) => setValue(newValue)} // Handle change
             >
-              <Tabs
-                orientation={showMenuIcon ? "vertical" : "horizontal"}
-                value={value} // Set the value prop
-                onChange={(event, newValue) => setValue(newValue)} // Handle change
-              >
-                <Link to={"/"}>
-                  <Tab
-                    sx={{
-                      color: "black",
-                    }}
-                    label="Home"
-                  />
-                </Link>
-                <Link to={"/products"}>
-                  <Tab
-                    sx={{
-                      color: "black",
-                    }}
-                    label="Products"
-                  />
-                </Link>
-                {token ? (
-                  <Link to={"/Cart"}>
-                    <IconButton>
-                      <ShoppingCartIcon />
-                    </IconButton>
-                  </Link>
-                ) : (
-                  <Link to={"/login"}></Link>
-                )}
-                <Link to={"/wishlist"}>
+              <Link to={"/"}>
+                <Tab
+                  sx={{
+                    color: "black",
+                  }}
+                  label="Home"
+                />
+              </Link>
+              <Link to={"/products"}>
+                <Tab
+                  sx={{
+                    color: "black",
+                  }}
+                  label="Products"
+                />
+              </Link>
+              {token ? (
+                <Link to={"/Cart"}>
                   <IconButton>
-                    <FavoriteBorderIcon />
+                    <ShoppingCartIcon />
                   </IconButton>
                 </Link>
-                <Link to={"/myorders"}>
+              ) : (
+                <Link to={"/login"}></Link>
+              )}
+              <Link to={"/wishlist"}>
+                <IconButton>
+                  <FavoriteBorderIcon />
+                </IconButton>
+              </Link>
+              <Link to={"/myorders"}>
+                <Tab
+                  sx={{
+                    color: "black",
+                  }}
+                  label="My orders"
+                />
+              </Link>
+
+              {token ? (
+                <Link to="/userprofile">
+                  <IconButton>
+                    <PersonIcon />
+                  </IconButton>
+                </Link>
+              ) : (
+                <Link to="/login">
                   <Tab
                     sx={{
                       color: "black",
                     }}
-                    label="My orders"
+                    label="Login"
                   />
                 </Link>
-
-                {token ? (
-                  <Link to="/userprofile">
-                    <IconButton>
-                      <PersonIcon />
-                    </IconButton>
-                  </Link>
-                ) : (
-                  <Link to="/login">
-                    <Tab
-                      sx={{
-                        color: "black",
-                      }}
-                      label="Login"
-                    />
-                  </Link>
-                )}
-              </Tabs>
-            </Box>
-          )}
+              )}
+            </Tabs>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
