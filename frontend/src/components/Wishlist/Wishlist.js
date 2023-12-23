@@ -19,11 +19,11 @@ const Wishlist = () => {
       position: toast.POSITION.TOP_CENTER,
     });
   };
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   const removefromWishlist = async (shirt) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/removefromwishlist/${shirt._id}`,
+        `${apiUrl}/removefromwishlist/${shirt._id}`,
         {
           headers: {
             "Content-Type": "application/json",

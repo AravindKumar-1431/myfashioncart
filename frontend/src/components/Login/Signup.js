@@ -33,9 +33,9 @@ const Signup = () => {
   }
   function submitform(e) {
     e.preventDefault();
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     axios
-      .post("http://localhost:5000/signup", singup)
+      .post(`${apiUrl}/signup`, singup)
       .then((res) => {
         console.log(res.signup);
         toast.success("signup successful", {

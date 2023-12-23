@@ -15,10 +15,11 @@ import axios from "axios";
 const Myorders = () => {
   const media = useMediaQuery("(max-width:600px)");
   const { order, setorder } = useCart();
+  const apiUrl = process.env.REACT_APP_API_URL;
   const removefromorders = async (shirt) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/removefromorders/${shirt._id}`,
+        `${apiUrl}/removefromorders/${shirt._id}`,
         {
           headers: {
             "Content-Type": "application/json",

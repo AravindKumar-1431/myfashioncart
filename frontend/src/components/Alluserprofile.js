@@ -8,11 +8,12 @@ import { Link, redirect } from "react-router-dom";
 
 const Alluserprofile = () => {
   const [data, setdata] = useState();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/myprofile", {
+        const response = await axios.get(`${apiUrl}/myprofile`, {
           headers: { "y-token": localStorage.getItem("token") },
         });
 

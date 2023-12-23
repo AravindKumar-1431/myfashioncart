@@ -23,10 +23,11 @@ const Products = () => {
 
   const [data, setdata] = useState([]);
   const navigate = useNavigate(); // Replace useHistory with useNavigate
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/getproducts");
+      const response = await axios.get(`${apiUrl}/getproducts`);
       setdata(response.data);
     } catch (error) {
       console.error("Error during GET request:", error);

@@ -10,11 +10,11 @@ export const CartProvider = ({ children }) => {
 
   const [wishlist, setwishlist] = useState([]);
   const [order, setorder] = useState([]);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const getcart = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/getcart", {
+        const res = await axios.get(`${apiUrl}/getcart`, {
           headers: {
             "Content-Type": "application/json",
             "y-token": localStorage.getItem("token"),
@@ -31,7 +31,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (name, price, image) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/addtocart",
+        `${apiUrl}/addtocart`,
         {
           name,
           price,
@@ -54,7 +54,7 @@ export const CartProvider = ({ children }) => {
   const addtoWishlist = async (name, price, image) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/addtowishlist",
+        `${apiUrl}/addtowishlist`,
         {
           name,
           price,
@@ -76,7 +76,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const getwishlist = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/getwishlist", {
+        const res = await axios.get(`${apiUrl}/getwishlist`, {
           headers: {
             "Content-Type": "application/json",
             "y-token": localStorage.getItem("token"),
@@ -112,7 +112,7 @@ export const CartProvider = ({ children }) => {
   const addtoMyorders = async (name, price, image) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/addtoorders",
+        `${apiUrl}/addtoorders`,
         {
           name,
           price,
@@ -134,7 +134,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const getorders = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/getorders", {
+        const res = await axios.get(`${apiUrl}/getorders`, {
           headers: {
             "Content-Type": "application/json",
             "y-token": localStorage.getItem("token"),
